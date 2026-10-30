@@ -36,17 +36,17 @@ Quy ước phối hợp:
 **Description:** Tạo cấu trúc thư mục rỗng theo kiến trúc AGENTS.md, file dependency, cấu hình pytest, `.gitignore`, `git init`. Chưa viết logic game.
 
 **Acceptance criteria:**
-- [ ] `requirements.txt` liệt kê: torch (cu124), numpy, pyyaml, pytest, pygame
-- [ ] `pip install -r requirements.txt` chạy được, `torch.cuda.is_available()` trả True
-- [ ] `pytest` chạy trong repo, exit code 0 khi chưa có test
-- [ ] `.gitignore` loại `checkpoints/`, `logs/`, `__pycache__/`, `*.pt`, `.venv/`
-- [ ] `git init` xong, commit đầu tiên tạo được, `git status` không thấy file rác
-- [ ] Chưa cần remote: user tạo repo GitHub và push sau, làm theo `colab/README.md` (T15)
+- [x] `requirements.txt` liệt kê: torch (cu124), numpy, pyyaml, pytest, pygame
+- [x] `pip install -r requirements.txt` chạy được, `torch.cuda.is_available()` trả True
+- [x] `pytest` chạy trong repo, exit code 0 khi chưa có test
+- [x] `.gitignore` loại `checkpoints/`, `logs/`, `__pycache__/`, `*.pt`, `.venv/`
+- [x] `git init` xong, commit đầu tiên tạo được, `git status` không thấy file rác
+- [x] Chưa cần remote: user tạo repo GitHub và push sau, làm theo `colab/README.md` (T15)
 
 **Verification:**
-- [ ] Test: `python -c "import torch; print(torch.cuda.is_available())"` → True
-- [ ] Test: `pytest -q` → pass
-- [ ] Build: không có (repo Python thuần)
+- [x] Test: `python -c "import torch; print(torch.cuda.is_available())"` → True
+- [x] Test: `pytest -q` → pass
+- [x] Build: không có (repo Python thuần)
 
 **Dependencies:** None
 **Files likely touched:** `requirements.txt`, `.gitignore`, `pyproject.toml` hoặc `pytest.ini`, `.git/`
@@ -59,17 +59,17 @@ Quy ước phối hợp:
 **Description:** `config.py` đọc YAML, trả dict có key mặc định. `configs/normal.yaml` và `configs/renju.yaml` chứa hyperparameter theo AGENTS.md.
 
 **Acceptance criteria:**
-- [ ] `load_config(path)` trả dict, thiếu key dùng giá trị mặc định từ `DEFAULT_CONFIG`
-- [ ] `configs/normal.yaml` có: `n_iter`, `games_per_iter`, `n_simulations`, `c_puct`, `dirichlet_alpha`, `dirichlet_eps`, `temp_moves`, `buffer_size`, `train_steps_per_iter`, `batch_size`, `arena_win_threshold`, `learning_rate`, `optimizer`, `weight_decay`, `value_loss_weight`, `policy_loss_weight`, `lr_schedule`
-- [ ] `configs/renju.yaml` kế thừa giá trị normal, đổi `rule_set: renju`
-- [ ] Giá trị mặc định khớp khối "Default hyperparameters" trong AGENTS.md, cộng thêm: `learning_rate: 1e-3`, `optimizer: adam`, `weight_decay: 1e-4`, `value_loss_weight: 1.0`, `policy_loss_weight: 1.0`, `lr_schedule: cosine`
-- [ ] Ngân sách ván suy ra từ cấu hình: `n_iter × games_per_iter` (mặc định 20 × 50 = 1000). Đổi sang 24 × 50 = 1200 hay 30 × 50 = 1500 chỉ cần sửa file cấu hình
-- [ ] Không con số 1000 nào hardcode trong mã; mọi nơi đọc ngân sách từ cấu hình
+- [x] `load_config(path)` trả dict, thiếu key dùng giá trị mặc định từ `DEFAULT_CONFIG`
+- [x] `configs/normal.yaml` có: `n_iter`, `games_per_iter`, `n_simulations`, `c_puct`, `dirichlet_alpha`, `dirichlet_eps`, `temp_moves`, `buffer_size`, `train_steps_per_iter`, `batch_size`, `arena_win_threshold`, `learning_rate`, `optimizer`, `weight_decay`, `value_loss_weight`, `policy_loss_weight`, `lr_schedule`
+- [x] `configs/renju.yaml` kế thừa giá trị normal, đổi `rule_set: renju`
+- [x] Giá trị mặc định khớp khối "Default hyperparameters" trong AGENTS.md, cộng thêm: `learning_rate: 1e-3`, `optimizer: adam`, `weight_decay: 1e-4`, `value_loss_weight: 1.0`, `policy_loss_weight: 1.0`, `lr_schedule: cosine`
+- [x] Ngân sách ván suy ra từ cấu hình: `n_iter × games_per_iter` (mặc định 20 × 50 = 1000). Đổi sang 24 × 50 = 1200 hay 30 × 50 = 1500 chỉ cần sửa file cấu hình
+- [x] Không con số 1000 nào hardcode trong mã; mọi nơi đọc ngân sách từ cấu hình
 
 **Verification:**
-- [ ] Test: `tests/test_config.py` — load file thật, assert key và giá trị
-- [ ] Test: `pytest -q tests/test_config.py` → pass
-- [ ] Build: `python -c "from config import load_config; print(load_config('configs/normal.yaml')['n_iter'])"` → 20
+- [x] Test: `tests/test_config.py` — load file thật, assert key và giá trị
+- [x] Test: `pytest -q tests/test_config.py` → pass
+- [x] Build: `python -c "from config import load_config; print(load_config('configs/normal.yaml')['n_iter'])"` → 20
 
 **Dependencies:** T1
 **Files likely touched:** `config.py`, `configs/normal.yaml`, `configs/renju.yaml`, `tests/test_config.py`
