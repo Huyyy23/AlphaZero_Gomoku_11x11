@@ -82,16 +82,16 @@ Quy ước phối hợp:
 **Description:** Lớp `Board` giữ state dạng numpy int8 phẳng, có `play`, `undo`, `history`, `current_player`. Không chứa luật chơi.
 
 **Acceptance criteria:**
-- [ ] Bàn **11x11 cố định**: hằng số `SIZE = 11` trong `gomoku/board.py` là nguồn duy nhất; không có tham số kích thước
-- [ ] `play(r, c)` đặt đá của người đang đi, tăng `history`, đổi lượt; ngoài bàn hoặc ô đã có đá thì raise
-- [ ] `undo()` trả về nước vừa nhập và khôi phục state trước đó
-- [ ] `grid` là numpy int8 1D, index phẳng `r * SIZE + c`; `EMPTY=0, BLACK=1, WHITE=2`
-- [ ] `gomoku/` không import torch
+- [x] Bàn **11x11 cố định**: hằng số `SIZE = 11` trong `gomoku/board.py` là nguồn duy nhất; không có tham số kích thước
+- [x] `play(r, c)` đặt đá của người đang đi, tăng `history`, đổi lượt; ngoài bàn hoặc ô đã có đá thì raise
+- [x] `undo()` trả về nước vừa nhập và khôi phục state trước đó
+- [x] `grid` là numpy int8 1D, index phẳng `r * SIZE + c`; `EMPTY=0, BLACK=1, WHITE=2`
+- [x] `gomoku/` không import torch
 
 **Verification:**
-- [ ] Test: `tests/test_board.py` — play/undo/history, lỗi out-of-range, lỗi ô bận, đổi lượt
-- [ ] Test: `pytest -q tests/test_board.py` → pass
-- [ ] Manual: `python -c "from gomoku.board import Board; b=Board(); b.play(5,5); print(b.grid.max())"` → 1
+- [x] Test: `tests/test_board.py` — play/undo/history, lỗi out-of-range, lỗi ô bận, đổi lượt
+- [x] Test: `pytest -q tests/test_board.py` → pass
+- [x] Manual: `python -c "from gomoku.board import Board; b=Board(); b.play(5,5); print(b.grid.max())"` → 1
 
 **Dependencies:** T2
 **Files likely touched:** `gomoku/board.py`, `gomoku/__init__.py`, `tests/test_board.py`
