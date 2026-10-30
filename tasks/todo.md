@@ -104,16 +104,16 @@ Quy ước phối hợp:
 **Description:** Interface `Rules` với `legal_moves`, `is_win`, `is_terminal`, `forbidden_moves` (mặc định rỗng). `NormalRules` kiểm tra 5+ liền nhau (ngang, dọc, 2 đường chéo), 6+ cũng thắng.
 
 **Acceptance criteria:**
-- [ ] `legal_moves(board)` trả list ô trống, không có ô đã có đá
-- [ ] `is_win(board)` True khi có 5 liền hoặc nhiều hơn theo 4 hướng
-- [ ] `is_terminal(board)` True khi thắng hoặc bàn đầy
-- [ ] Vector hóa: không có vòng lặp Python quét 121 ô cho mỗi lần gọi
-- [ ] `forbidden_moves(board)` trả list rỗng cho Normal
+- [x] `legal_moves(board)` trả list ô trống, không có ô đã có đá
+- [x] `is_win(board)` True khi có 5 liền hoặc nhiều hơn theo 4 hướng
+- [x] `is_terminal(board)` True khi thắng hoặc bàn đầy
+- [x] Vector hóa: không có vòng lặp Python quét 121 ô cho mỗi lần gọi
+- [x] `forbidden_moves(board)` trả list rỗng cho Normal
 
 **Verification:**
-- [ ] Test: `tests/test_rules_normal.py` — thắng ngang, dọc, chéo `\`, chéo `/`, thắng 6 quân, hoà khi bàn đầy, legal_moves loại ô bận
-- [ ] Test: `pytest -q tests/test_rules_normal.py` → pass
-- [ ] Build: `python -c "import gomoku.rules.normal"` → không lỗi
+- [x] Test: `tests/test_rules_normal.py` — thắng ngang, dọc, chéo `\`, chéo `/`, thắng 6 quân, hoà khi bàn đầy, legal_moves loại ô bận
+- [x] Test: `pytest -q tests/test_rules_normal.py` → pass
+- [x] Build: `python -c "import gomoku.rules.normal"` → không lỗi
 
 **Dependencies:** T3
 **Files likely touched:** `gomoku/rules/base.py`, `gomoku/rules/normal.py`, `gomoku/rules/__init__.py`, `tests/test_rules_normal.py`
