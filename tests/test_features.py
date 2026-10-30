@@ -220,16 +220,20 @@ class TestPolicyConsistency:
 # forbidden-plane semantics placeholder (real Renju tests come with T24)
 # ---------------------------------------------------------------------- #
 def test_forbidden_hook_uses_rules_interface(monkeypatch, rules):
-    """board_to_planes must read forbidden cells through rules.forbidden_moves."""
+    """board_to_planes reads forbidden cells through rules.forbidden_moves,
+    and only for the side to move (viewpoint snapshot must not query a
+    different colour's restrictions)."""
     calls = []
     orig = rules.forbidden_moves
 
     def spy(b):
-        calls.append(b.num_moves)
+        calls.append(b.current_player)
         return orig(b)
 
     monkeypatch.setattr(rules, "forbidden_moves", spy)
     b = Board()
-    b.play(5, 5)
-    board_to_planes(b, rules, BLACK)
-    assert calls  # interface consulted even when result is empty
+    b.play(5, 5)  # now WHITE to move
+    board_to_planes(b, rules, WHITE)   # side to move -> consulted
+    assert calls == [WHITE]
+    board_to_planes(b, rules, BLACK)   # not side to move -> not consulted
+    assert len(calls) == 1

@@ -74,46 +74,22 @@ def board_to_planes(board: Board, rules: Rules, player: int | None = None) -> np
     planes[PLANE_OPP] = (grid2d == opp).astype(np.float32)
 
     # Forbidden plane: computed *at this position, for this player*. The
-    # rules interface defines forbidden_moves relative to the side to move,
-    # so if the requested viewpoint differs from board.current_player we
-    # temporarily flip the turn marker to query correctly.
-    forbidden = _forbidden_for(rules, board, player)
-    if forbidden:
-        idx = np.asarray(forbidden, dtype=np.int64)
-        planes[PLANE_FORBIDDEN].reshape(-1)[idx] = 1.0
+    # rules interface defines forbidden_moves relative to the side to move.
+    # We only query it when ``player`` IS the side to move; otherwise the
+    # encoding is a static viewpoint snapshot (used for augmentation /
+    # mirrored features) and no transient stone is placed -- mutating the
+    # board here would corrupt MCTS history and the undo contract (T3).
+    if board.current_player == player:
+        forbidden = rules.forbidden_moves(board)
+        if forbidden:
+            idx = np.asarray(forbidden, dtype=np.int64)
+            planes[PLANE_FORBIDDEN].reshape(-1)[idx] = 1.0
 
     # color_to_move: 1 iff it is `player`'s turn on the actual board.
     if board.current_player == player:
         planes[PLANE_COLOR] = 1.0
 
     return planes
-
-
-def _forbidden_for(rules: Rules, board: Board, player: int) -> list[int]:
-    """Forbidden cells for ``player`` at ``board`` without mutating state.
-
-    ``rules.forbidden_moves`` is defined for the side to move. We exploit
-    play/undo round-trip safety: if it is already ``player``'s turn, query
-    directly; otherwise place a temporary stone for the other colour, query,
-    then undo. Undo restores grid, history and turn exactly (tested in T3).
-    """
-    if board.current_player == player:
-        return rules.forbidden_moves(board)
-    # Simulate the opponent playing an arbitrary legal cell to hand the turn
-    # over to `player`. Any legal empty cell works; the forbidden plane is
-    # only read while it is `player`'s real turn during search.
-    # NOTE: callers use this during MCTS where the intermediate position is
-    # transient. For Normal rules the result is [] either way.
-    empties = np.flatnonzero(board.grid == 0)
-    if empties.size == 0:
-        return []
-    r, c = divmod(int(empties[0]), board.grid.shape[0] ** 0.5 and 11)
-    board.play(r, c)
-    try:
-        out = rules.forbidden_moves(board)
-    finally:
-        board.undo()
-    return out
 
 
 # ---------------------------------------------------------------------- #
