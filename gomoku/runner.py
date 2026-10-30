@@ -70,6 +70,20 @@ class Runner:
         played: list[tuple[int, int]] = []
 
         while True:
+            side = board.current_player
+            mover = players[side]
+            move = mover.select_move(board)
+            self._validate(board, move, mover)
+
+            r, c = move
+            board.play(r, c)
+            played.append((r, c))
+            if on_move is not None:
+                on_move(board, mover, side)
+
+            # Terminal check happens right after the move that ends the game,
+            # so the winner's last stone is never missed and the losing side
+            # is never asked for another move.
             if self._rules.is_win(board):
                 return GameResult(
                     winner=self._rules.winner(board),
@@ -85,17 +99,6 @@ class Runner:
                 raise RuntimeError(
                     f"game exceeded max_moves={max_moves} without terminal state"
                 )
-
-            side = board.current_player
-            mover = players[side]
-            move = mover.select_move(board)
-            self._validate(board, move, mover)
-
-            r, c = move
-            board.play(r, c)
-            played.append((r, c))
-            if on_move is not None:
-                on_move(board, mover, side)
 
     def _validate(self, board: Board, move, mover: Player) -> None:
         if not (isinstance(move, tuple) and len(move) == 2):

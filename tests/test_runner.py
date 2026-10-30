@@ -175,7 +175,8 @@ def test_runner_random_vs_random_terminates_consistently(rules):
 
 
 def test_runner_detects_black_win_on_fifth_move(rules):
-    line = [(5, 3), (0, 0), (5, 4), (0, 1), (5, 5), (0, 2), (5, 6), (0, 3)]
+    # Black's five: (5,3)..(5,7); the winning move is Black's 5th turn.
+    line = [(5, 3), (0, 0), (5, 4), (0, 1), (5, 5), (0, 2), (5, 6), (0, 3), (5, 7)]
     black = ScriptedPlayer(line[0::2] + [(9, 9)])  # spare never played
     white = ScriptedPlayer(line[1::2])
     result = Runner(rules).play(black, white)
@@ -190,7 +191,7 @@ def test_runner_calls_on_move_after_each_accepted_move(rules):
     def on_move(board, player, side):
         seen.append((len(board.history), side, tuple(board.history[-1])))
 
-    line = [(5, 3), (0, 0), (5, 4), (0, 1), (5, 5), (0, 2), (5, 6), (0, 3)]
+    line = [(5, 3), (0, 0), (5, 4), (0, 1), (5, 5), (0, 2), (5, 6), (0, 3), (5, 7)]
     Runner(rules).play(ScriptedPlayer(line[0::2] + [(9, 9)]), ScriptedPlayer(line[1::2]),
                        on_move=on_move)
     assert seen[0] == (1, BLACK, (5, 3))

@@ -8,6 +8,7 @@ retry until a legal move is produced.
 
 from __future__ import annotations
 
+import re
 from collections.abc import Callable
 
 from gomoku.board import SIZE, Board
@@ -18,6 +19,19 @@ from players.base import Player
 # attempt, an error description on retries), return a raw user string or None
 # if no more input is available.
 InputCallback = Callable[[Board, str | None], str | None]
+
+# A hyphen that sits between two digits and is NOT part of a negative-number
+# token (i.e. preceded by a non-digit or start, like "5-3") acts as separator.
+_HYPHEN_SEP_RE = re.compile(r"(?<=\d)-(?=\d)")
+
+
+def _is_number_token(tok: str) -> bool:
+    """True for things like '-1', '10', '+3' -- tokens int() accepts."""
+    try:
+        int(tok)
+        return True
+    except ValueError:
+        return False
 
 
 class HumanPlayer(Player):
@@ -62,11 +76,15 @@ def _parse_rc(raw: str) -> tuple[int, int]:
     if any(ch.isdigit() for ch in cleaned):
         # Normalize separators only when digits are present, so pure-garbage
         # input ("abc") fails with a format error instead of an int error.
-        # Split on spaces first so negative numbers ("-1") survive intact.
-        cleaned = cleaned.replace("-", ",")
+        # Space-separated pairs ("5 3") become "5,3"; hyphens used as
+        # separators ("5-3") become "5,3", but a hyphen directly between two
+        # digits is kept (it may be a negative number like "-1" or "10-3"-style
+        # ambiguity is resolved by the range check afterwards).
         chunks = cleaned.split()
         if len(chunks) == 2:
+            # Space-separated pair ("5 3", "-1 0") -> comma form.
             cleaned = ",".join(chunks)
+        cleaned = _HYPHEN_SEP_RE.sub(",", cleaned)
     parts = [p for p in cleaned.split(",") if p != ""]
     if len(parts) != 2:
         raise ValueError(f"'{raw}' không phải tọa độ dạng 'r,c'")
