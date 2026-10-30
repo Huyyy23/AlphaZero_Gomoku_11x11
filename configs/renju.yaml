@@ -1,0 +1,5 @@
+# Renju rules on 11x11 (Black forbidden: 3-3, 4-4, overline; exactly-5 always legal).
+# Inherits every value from configs/normal.yaml; only the rule set changes.
+# Keep both files in sync when tuning normal.yaml.
+extends: normal
+rule_set: renju

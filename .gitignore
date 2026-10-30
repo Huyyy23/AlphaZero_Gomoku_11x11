@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Artifacts
+checkpoints/
+logs/
+*.pt
+*.pth
+*.npz
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Keep folder placeholders tracked (negate the artifact rules above)
+!checkpoints/
+!logs/
+checkpoints/*
+logs/*
+!checkpoints/.gitkeep
+!logs/.gitkeep
