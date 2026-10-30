@@ -20,7 +20,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from gomoku.board import BLACK, EMPTY, SIZE, Board
+from gomoku.board import BLACK, EMPTY, SIZE, WHITE, Board
 from gomoku.rules.base import Rules
 
 # The four line directions as (dr, dc).
