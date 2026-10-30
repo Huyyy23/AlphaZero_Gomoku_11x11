@@ -126,16 +126,16 @@ Quy ước phối hợp:
 **Description:** `board_to_planes(board, rules, player)` trả tensor numpy shape `(4, 11, 11)`. Hàm transform cho 8 phép đối xứng, áp dụng đồng thời lên features và policy.
 
 **Acceptance criteria:**
-- [ ] 4 plane cố định: `my_stones`, `opp_stones`, `forbidden`, `color_to_move`
-- [ ] Plane `forbidden` bằng 0 khi rule set không cấm nước nào
-- [ ] `symmetry_transform(array, k)` trả 8 biến thể; phép tự nghịch áp 2 lần ra identity, rot90 và rot270 nghịch nhau; một hàm dùng chung cho cả features và policy
-- [ ] Policy one-hot tại `(r,c)` biến đổi ra đúng ô ảnh, khớp với phép biến đổi áp lên plane (cùng `symmetry_transform`)
-- [ ] Không import torch (trả numpy; torch chuyển đổi ở tầng az/)
+- [x] 4 plane cố định: `my_stones`, `opp_stones`, `forbidden`, `color_to_move`
+- [x] Plane `forbidden` bằng 0 khi rule set không cấm nước nào
+- [x] `symmetry_transform(array, k)` trả 8 biến thể; phép tự nghịch áp 2 lần ra identity, rot90 và rot270 nghịch nhau; một hàm dùng chung cho cả features và policy
+- [x] Policy one-hot tại `(r,c)` biến đổi ra đúng ô ảnh, khớp với phép biến đổi áp lên plane (cùng `symmetry_transform`)
+- [x] Không import torch (trả numpy; torch chuyển đổi ở tầng az/)
 
 **Verification:**
-- [ ] Test: `tests/test_features.py` — shape, giá trị plane, 8 biến thể khác nhau, transform∘transform = identity, policy transform khớp feature transform
-- [ ] Test: `pytest -q tests/test_features.py` → pass
-- [ ] Manual: `python -c "from gomoku.features import board_to_planes"` → OK
+- [x] Test: `tests/test_features.py` — shape, giá trị plane, 8 biến thể khác nhau, transform∘transform = identity, policy transform khớp feature transform
+- [x] Test: `pytest -q tests/test_features.py` → pass (33 test; toàn bộ tests/ = 81 passed)
+- [x] Manual: `python -c "from gomoku.features import board_to_planes"` → OK
 
 **Dependencies:** T4
 **Files likely touched:** `gomoku/features.py`, `tests/test_features.py`
