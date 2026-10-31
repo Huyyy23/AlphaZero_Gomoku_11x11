@@ -16,6 +16,9 @@ logs/
 .idea/
 .DS_Store
 
+# Kilo
+.kilo/
+
 # Keep folder placeholders tracked (negate the artifact rules above)
 !checkpoints/
 !logs/
